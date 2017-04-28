@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<style>
+		.button{
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			text-align:center;
+			font-weight: bold;
+			font-size: 18px;
+			display: inline-block;
+			height: 20px;
+			width: 25px;
+			cursor: pointer;
+		}
+		.inc{
+			color: green;
+			border: 1px solid green;
+		}
+		.dec{
+			color: red;
+			border: 1px solid red;
+		}>
+		</style>
+		
+		<script type = "text/javascript" 
+		src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+		</script>
+		
+		<script type="text/javascript">
+		$(document).ready(function(){
+		incrementVar = 0;
+		$('.inc.button').click(function(){
+		var $this = $(this),
+			$input = $this.prev('input'),
+			$parent = $input.closest('div'),
+			newValue = parseInt($input.val())+1;
+		$parent.find('.inc').addClass('a'+newValue);
+		$input.val(newValue);
+		incrementVar += newValue;
+		});
+		$('.dec.button').click(function(){
+			var $this = $(this),
+				$input = $this.next('input'),
+				$parent = $input.closest('div'),
+				newValue = parseInt($input.val())-1;
+			console.log($parent);
+			$parent.find('.inc').addClass('a'+newValue);
+			$input.val(newValue);
+			incrementVar += newValue;
+		});
+		});
+		</script>
+	</head>	
+	
+	<div>
+		<label for="name">Adult Males</label>
+		<div class="dec button">-</div>
+		<input type="text" name="qty" id="1" value="0" />
+		<div class="inc button">+</div>
+	</div>
+	<div>
+		<label for="name">Adult Females</label>
+		<div class="dec button">-</div>
+		<input type="text" name="adult-female" id="2" value="0"/>
+		<div class="inc button">+</div>
+	</div>
+
+</html>

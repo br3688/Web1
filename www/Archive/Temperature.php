@@ -13,8 +13,14 @@ preg_match("/t=(.+)/", preg_split("/\n/", $reading)[1], $matches);
 $degreesc = $matches[1] / 1000;
 $degreesf = round($degreesc*9/5+32, "1");
 
-echo "temperature: ";
+echo "date & time ";
+echo date ('Y-m-d G:i:s ');
+echo "temperature";
 echo $degreesf;
-echo " F";
+#echo $temp . " C"; 
 
 ?>
+<html> 
+	<meta http-equiv="refresh" content="1">
+</html>
+

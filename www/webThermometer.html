@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>Web Thermometer</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript" charset="utf-8">
+    function addmsg(msg){
+        $(".msg_new").replaceWith(
+            "<div class='msg_new'>"+ msg +"</div>"
+        );
+    }
+
+    function waitForMsg(){
+        /* This requests the url "msgsrv.php"
+        When it complete (or errors)*/
+        $.ajax({
+            type: "GET",
+            url: "msgsrv.php",
+
+            async: true, /* If set to non-async, browser shows page as "Loading.."*/
+            cache: false,
+            timeout:50000, /* Timeout in ms */
+
+            success: function(data){ /* called when request to barge.php completes */
+                addmsg(data); /* Add response to a .msg div (with the "new" class)*/
+                setTimeout(
+                    waitForMsg, /* Request next message */
+                    500 /* ..after 1 seconds */
+                );
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                addmsg("error", textStatus + " (" + errorThrown + ")");
+                setTimeout(
+                    waitForMsg, /* Try again after.. */
+                    15000); /* milliseconds (15seconds) */
+            }
+        });
+    };
+
+    $(document).ready(function(){
+        waitForMsg(); /* Start the inital request */
+    });
+    </script>
+</head>
+<body>
+    <div id="messages">
+        <div class="msg_old">
+            Temperature Web meter
+        </div>
+        <div class="msg_new">
+            Initializing Thermometer
+        </div>
+    </div>
+</body>
+</html>
