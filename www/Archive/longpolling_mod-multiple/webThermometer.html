@@ -8,39 +8,42 @@
 	
 	<!-- Javascript function: updates div content when called-->
     <script type="text/javascript" charset="utf-8">
-    function addmsg(msg){
-        $(".msg_new").replaceWith(
-            "<div class='msg_new'>"+ msg +"</div>"
+	
+	var totalData = 2;
+		
+    function addmsg(msg,streamNumber){
+        $(".msg_new"+streamNumber).replaceWith(
+            "<div class='msg_new" + streamNumber + "'>" + msg +"</div>"
         );
     }
 	<!-- Javascript function: once started, calls itself every 500ms-->
-    function waitForMsg(){
+    function acquireData(dataChannel){
         $.ajax({
             type: "GET",
-            url: "msgsrv.php",
-
+            url: "datasrv"+dataChannel + ".php",
             async: true,
             cache: false,
             timeout:50000,
-
             success: function(data){
-                addmsg(data);
+                addmsg(data,dataChannel);
                 setTimeout(
-                    waitForMsg,
+                    acquireData(dataChannel),
                     500
                 );
             },
             error: function(XMLHttpRequest, textStatus, errorThrown){
                 addmsg("error", textStatus + " (" + errorThrown + ")");
                 setTimeout(
-                    waitForMsg,
+                    acquireData(dataChannel),
                     15000);
             }
         });
     };
 	<!--  Javascript function: Loads funtion when document is ready-->
     $(document).ready(function(){
-        waitForMsg(); /* Start the inital request */
+	for (i = 1; i <= totalData; i++){
+        acquireData(i); /* Start the inital request */
+	}
     });
     </script>
     
@@ -51,8 +54,11 @@
         <div class="msg_old">
 			<h1>Color Film Processor</h1>
         </div>
-        <div class="msg_new">
-            Initializing Thermometer
+        <div class="msg_new1">
+            Initializing data1
+        </div>
+        <div class="msg_new2">
+            Initializing data2
         </div>
         <div class="msg_old">
             Target Temperature: 75 F
